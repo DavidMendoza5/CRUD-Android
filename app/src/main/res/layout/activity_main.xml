@@ -86,6 +86,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:onClick="addNewUser"
             android:text="Agregar" />
 
         <Button
@@ -93,6 +94,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:onClick="getUsers"
             android:text="Ver Usuarios" />
 
     </LinearLayout>
