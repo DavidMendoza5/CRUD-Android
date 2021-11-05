@@ -1,8 +1,12 @@
 package com.example.androidwithsqllite;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DataBase extends SQLiteOpenHelper {
     private static final String dbName = "users.db";
@@ -30,5 +34,19 @@ public class DataBase extends SQLiteOpenHelper {
             db.execSQL("INSERT INTO USER VALUES('"+rfc+"', '"+name+"', '"+phone+"', '"+email+"')");
             db.close();
         }
+    }
+
+    public List<UserModel> showUsers() {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM USER", null);
+        List<UserModel> users = new ArrayList<>();
+        if(cursor.moveToFirst()) {
+            do {
+                users.add(new UserModel(cursor.getString(0), cursor.getString(1), Integer.parseInt(cursor.getString(2)),
+                        cursor.getString(3)));
+            } while (cursor.moveToNext());
+        }
+
+        return users;
     }
 }
