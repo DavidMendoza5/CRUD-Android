@@ -28,7 +28,7 @@ public class DataBase extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(userTable);
     }
 
-    public void addUser(String rfc, String name, int phone, String email) {
+    public void addUser(String rfc, String name, String phone, String email) {
         SQLiteDatabase db = getWritableDatabase();
         if(db != null) {
             db.execSQL("INSERT INTO USER VALUES('"+rfc+"', '"+name+"', '"+phone+"', '"+email+"')");
@@ -42,11 +42,39 @@ public class DataBase extends SQLiteOpenHelper {
         List<UserModel> users = new ArrayList<>();
         if(cursor.moveToFirst()) {
             do {
-                users.add(new UserModel(cursor.getString(0), cursor.getString(1), Integer.parseInt(cursor.getString(2)),
+                users.add(new UserModel(cursor.getString(0), cursor.getString(1), cursor.getString(2),
                         cursor.getString(3)));
             } while (cursor.moveToNext());
         }
 
         return users;
+    }
+
+    public UserModel searchUser(UserModel userModel, String rfc) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM USER WHERE RFC='"+rfc+"'", null);
+        if(cursor.moveToFirst()) {
+            do {
+                userModel = new UserModel(cursor.getString(0), cursor.getString(1), cursor.getString(2),
+                        cursor.getString(3));
+            } while (cursor.moveToNext());
+        }
+        return  userModel;
+    }
+
+    public void updateUser(String rfc, String name, String phone, String email) {
+        SQLiteDatabase db = getWritableDatabase();
+        if(db != null) {
+            db.execSQL("UPDATE USER SET NAME='"+name+"', PHONE='"+phone+"', EMAIL='"+email+"' WHERE RFC='"+rfc+"'");
+            db.close();
+        }
+    }
+
+    public void deleteUser(String rfc) {
+        SQLiteDatabase db = getWritableDatabase();
+        if(db != null) {
+            db.execSQL("DELETE FROM USER WHERE RFC='"+rfc+"'");
+            db.close();
+        }
     }
 }
