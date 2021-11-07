@@ -34,8 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     public UserModel getInputData() {
         EditText inputRfc, inputName, inputPhone, inputEmail;
-        String rfc, name, email;
-        int phone;
+        String rfc, name, email, phone;
 
         inputRfc = findViewById(R.id.rfcInput);
         inputName = findViewById(R.id.nameInput);
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         rfc = inputRfc.getText().toString();
         name = inputName.getText().toString();
-        phone = Integer.parseInt(inputPhone.getText().toString());
+        phone = inputPhone.getText().toString();
         email = inputEmail.getText().toString();
 
         return new UserModel(rfc, name, phone, email);
